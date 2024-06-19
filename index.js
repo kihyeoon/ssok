@@ -2,7 +2,8 @@ var shopping_cart = [];
 var shopping_cart_total = 0;
 
 function add_item_to_cart(name, price) {
-  shopping_cart = add_item(shopping_cart, name, price);
+  var item = make_cart_item(name, price);
+  shopping_cart = add_item(shopping_cart, item);
   var total = calc_total(cart);
   set_cart_total_dom(total);
   update_shipping_icons(cart);
@@ -20,7 +21,7 @@ function update_shipping_icons(cart) {
   for (var i = 0; i < buttons.length; i++) {
     var button = buttons[i];
     var item = button.item;
-    var new_cart = add_item(cart, item.name, item.price);
+    var new_cart = add_item(cart, make_cart_item(item.name, item.price));
     if (gets_free_shipping(new_cart)) button.show_free_shipping_icon();
     else button.hide_free_shipping_icon();
   }
@@ -30,13 +31,22 @@ function update_tax_dom(total) {
   set_tax_dom(calc_tax(total));
 }
 
-function add_item(cart, name, price) {
+function add_element_last(cart, item) {
   var new_cart = cart.slice();
-  new_cart.push({
-    name: name,
-    price: price,
-  });
+  new_cart.push(item);
+
   return new_cart;
+}
+
+function add_item(cart, item) {
+  return add_element_last(cart, item);
+}
+
+function make_cart_item(name, price) {
+  return {
+    name,
+    price,
+  };
 }
 
 function calc_total(cart) {
