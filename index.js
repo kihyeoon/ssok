@@ -1,5 +1,4 @@
 var shopping_cart = [];
-var shopping_cart_total = 0;
 
 function add_item_to_cart(name, price) {
   var item = make_cart_item(name, price);
@@ -21,10 +20,19 @@ function update_shipping_icons(cart) {
   for (var i = 0; i < buttons.length; i++) {
     var button = buttons[i];
     var item = button.item;
-    var new_cart = add_item(cart, make_cart_item(item.name, item.price));
-    if (gets_free_shipping(new_cart)) button.show_free_shipping_icon();
-    else button.hide_free_shipping_icon();
+    var hasFreeShipping = gets_free_shipping_with_item(cart, item);
+    set_free_shipping_icon(button, hasFreeShipping);
   }
+}
+
+function gets_free_shipping_with_item(cart, item) {
+  var new_cart = add_item(cart, item);
+  return gets_free_shipping(new_cart);
+}
+
+function set_free_shipping_icon(button, isShown) {
+  if (isShown) button.show_free_shipping_icon();
+  else button.hide_free_shipping_icon();
 }
 
 function update_tax_dom(total) {
