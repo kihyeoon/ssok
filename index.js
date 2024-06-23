@@ -48,7 +48,6 @@ function update_tax_dom(total) {
 }
 
 function remove_item_by_name(cart, name) {
-  let new_cart = cart.slice();
   let idx = null;
   for (let i = 0; i < new_cart.length; i++) {
     if (new_cart[i].name === name) {
@@ -56,9 +55,15 @@ function remove_item_by_name(cart, name) {
     }
   }
   if (idx !== null) {
-    new_cart.splice(idx, 1);
+    return removeItems(cart, idx, 1);
   }
-  return new_cart;
+  return cart;
+}
+
+function removeItems(array, idx, count) {
+  const copy = array.slice();
+  copy.splice(idx, count);
+  return copy;
 }
 
 function add_element_last(cart, item) {
