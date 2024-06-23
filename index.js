@@ -39,6 +39,18 @@ function update_tax_dom(total) {
   set_tax_dom(calc_tax(total));
 }
 
+function remove_item_by_name(cart, name) {
+  var idx = null;
+  for (var i = 0; i < cart.length; i++) {
+    if (cart[i].name === name) {
+      idx = i;
+    }
+    if (idx !== null) {
+      cart.splice(idx, 1);
+    }
+  }
+}
+
 function add_element_last(cart, item) {
   var new_cart = cart.slice();
   new_cart.push(item);
