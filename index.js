@@ -47,14 +47,6 @@ function update_tax_dom(total) {
   set_tax_dom(calc_tax(total));
 }
 
-function setPriceByName(cart, name, price) {
-  for (var i = 0; i < cart.length; i++) {
-    if (cart[i].name === name) {
-      cart[i].price = price;
-    }
-  }
-}
-
 function remove_item_by_name(cart, name) {
   let idx = null;
   for (let i = 0; i < new_cart.length; i++) {
@@ -107,4 +99,36 @@ function gets_free_shipping(total, item_price) {
 
 function calc_tax(amount) {
   return amount * 0.1;
+}
+
+function setPriceByName(cart, name, price) {
+  const cartCopy = cart.slice();
+  for (let i = 0; i < cartCopy.length; i++) {
+    if (cartCopy[i].name === name) {
+      cartCopy[i] = setPrice(cartCopy[i], price);
+    }
+  }
+  return cartCopy;
+}
+
+function setPrice(item, new_price) {
+  const item_copy = Object.assign({}, item);
+  item_copy.price = new_price;
+  return item_copy;
+}
+
+function setQuantityByName(cart, name, quantity) {
+  const cartCopy = cart.slice();
+  for (let i = 0; i < cartCopy.length; i++) {
+    if (cartCopy[i].name === name) {
+      cartCopy[i] = objectSet(cartCopy[i], 'quantity', quantity);
+    }
+  }
+  return cartCopy;
+}
+
+function objectSet(obj, key, value) {
+  const newObj = Object.assign({}, obj);
+  newObj[key] = value;
+  return newObj;
 }
